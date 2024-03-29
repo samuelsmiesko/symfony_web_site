@@ -25,4 +25,34 @@ class GalleryController extends AbstractController
             'fileCounts' => $fileCounts,
         ]);
     }
+
+
+    #[Route('/galery/{id}', name: 'galeryFolder')]
+    public function gallery($id): Response
+    {
+        $folders = scandir('img/');
+
+        $images = scandir('img/'.$id);
+
+        $no = count($images);
+
+        return $this->render('gallery/folder.html.twig', [
+            'controller_name' => 'GaleryController',
+            'Picked' => $id,
+            'folders' => $folders,
+            'images' => $images,
+            'no' => $no,
+        ]);
+    }
+
+    #[Route('/galery/{id}/{file}', name: 'imageShow', )]
+    public function imageShow($id,$file): Response
+    {   
+
+         return $this->render('gallery/image.html.twig', [
+             'controller_name' => 'ImageController',            
+             'folder' => $id,
+             'image' => $file,
+         ]);
+    }
 }

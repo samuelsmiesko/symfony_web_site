@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %} {% block title %}Hello GaleryController!{% endblock %} {% block body %}
+<style>
+    .example-wrapper {
+        margin: 1em auto;
+        max-width: 800px;
+        width: 95%;
+        font: 18px/1.5 sans-serif;
+    }
+
+    .example-wrapper code {
+        background: #F5F5F5;
+        padding: 2px 6px;
+    }
+</style>
+
+<div class="container d-flex justify-content-center">
+    <h1 class="m-4">{{ Picked }}</h1>
+</div>
+
+
+
+
+{% for folder in folders %} {% if folder == Picked %}
+
+<section id="carouselExample" class="carousel text-center" data-bs-ride="carousel">
+    {% for image in images %}
+
+    <div class="carousel-inner">
+        <div class="row">
+            <div class="wrapper">
+                {% if loop.index0 == 2 %}
+
+                <div class="carousel-item active">
+                    <div style="height: 75vh; ">
+                        <img style="height: 100%; " src="{{ asset( 'img/' ~ folder ~ '/' ~ image) }}" alt={{ image }}>
+                    </div>
+                </div>
+
+                {% endif %} {% if loop.index0 > 2 %}
+
+                <div class="carousel-item ">
+                    <div style="height: 75vh; " class="col-12 ">
+                        <img style="height: 100%;" src="{{ asset( 'img/' ~ folder ~ '/' ~ image) }}" alt={{ image }}>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="red" class="bi bi-arrow-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+        </svg>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="red" class="bi bi-arrow-right"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+        </svg>
+        <span class="visually-hidden">Next</span>
+    </button>
+</section>
+{% endif %} {% endfor %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            {% for folder in folders %}
+            {% if folder == Picked %}
+            {% for image in images %}
+            {% if loop.index % 2 == 0 and loop.index > 2 %}
+            {% set previous = images[loop.index - 2] %}
+
+
+            {% set imageFile = folder ~ '/' ~   previous %}
+
+
+            <div data-aos="fade-in">
+                <a href="{{ path('image',{id: folder,file: previous})}}">
+                    <img style="aspect-ratio: auto;" class="w-100 shadow-1-strong rounded mb-4" style="height: 100%; "
+                        src="{{ asset( 'img/' ~ folder ~ '/' ~ previous) }}" alt={{ previous }} />
+                </a>
+
+            </div>
+
+
+
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-md-6">
+            {% for folder in folders %}
+            {% if folder == Picked %}
+            {% for image in images %}
+            {% if loop.index % 2 == 0 and loop.index > 2 %}
+
+
+            <div data-aos="fade-in">
+                <a href="{{ path('image',{id: folder,file: image})}}">
+                    <img style="aspect-ratio: auto;" class="w-100 shadow-1-strong rounded mb-4" style="height: 100%; "
+                        src="{{ asset( 'img/' ~ folder ~ '/' ~ image) }}" alt={{ image }} />
+                </a>
+
+            </div>
+
+
+
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
